@@ -1,0 +1,19 @@
+# This file is where you define your pipelines. You can define multiple.
+# For more information on multiple pipelines, see the documentation:
+#   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
+
+- pipeline.id: input-filebeat
+  path.config: "/pipelines/filebeat"
+
+- pipeline.id: input-hearbeat
+  path.config: "/pipelines/heartbeat"
+
+- pipeline.id: logger-processor
+  path.config: "/pipelines/logger"
+
+- pipeline.id: salida1y2
+  path.config: "/pipelines/salida1y2"
+  
+- pipeline.id: salida3
+  path.config: "/pipelines/salida3"
+

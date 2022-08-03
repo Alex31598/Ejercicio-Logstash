@@ -1,0 +1,59 @@
+version: "3.7"
+services:
+  logger:
+    image: mingrammer/flog:latest
+    hostname: "ej2-logger"
+    container_name: "ej2-log"
+    command: "-t log -o /log/rand.log -n 100 -d 1s -w"
+    volumes:
+      - "./log:/log"
+  heartbeat:
+    image: docker.elastic.co/beats/heartbeat:7.16.3
+    hostname: "ej2-heartbeat"
+    container_name: "ej2-heartbeat"
+    user: root
+    command: heartbeat -e -strict.perms=false
+    volumes:
+      - ./conf/heartbeat/heartbeat.yml:/usr/share/heartbeat/heartbeat.yml
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.16.3
+    hostname: "ej2-filebeat"
+    container_name: "ej2-filebeat"
+    entrypoint: "filebeat -e -strict.perms=false"
+    volumes:
+      - "./log:/log"
+      - ./conf/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+  logstash:
+    image: logstash:7.16.3
+    hostname: "ej2-logstash"
+    container_name: "ej2-logstash"
+    user: root
+    volumes:
+      - "./data:/data:rw"
+      - "./conf/logstash/conf:/pipelines"
+      - "./conf/logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml"
+  http-endpoint1:
+    image: mendhak/http-https-echo:24
+    hostname: "ej2-endpoint1"
+    container_name: "ej2-endpoint1"
+    environment:
+      - HTTP_PORT=8081
+    ports:
+      - 8081
+  http-endpoint2:
+    image: mendhak/http-https-echo:24
+    hostname: "ej2-endpoint2"
+    container_name: "ej2-endpoint2"
+    environment:
+      - HTTP_PORT=8082
+    ports:
+      - 8082
+
+  http-endpoint3:
+    image: mendhak/http-https-echo:24
+    hostname: "ej2-endpoint3"
+    container_name: "ej2-endpoint3"
+    environment:
+      - HTTP_PORT=8083
+    ports:
+      - 8083
