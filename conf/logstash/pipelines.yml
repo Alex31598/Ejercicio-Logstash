@@ -4,16 +4,28 @@
 
 - pipeline.id: input-filebeat
   path.config: "/pipelines/filebeat"
+  queue.type : persisted
 
 - pipeline.id: input-hearbeat
   path.config: "/pipelines/heartbeat"
+  queue.type : persisted
 
-- pipeline.id: logger-processor
-  path.config: "/pipelines/logger"
+- pipeline.id: collector
+  path.config: "/pipelines/collector"
+  queue.type : persisted
 
-- pipeline.id: salida1y2
-  path.config: "/pipelines/salida1y2"
-  
+- pipeline.id: distributor1y2
+  path.config: "/pipelines/distributor1y2"
+  queue.type : persisted
+
+- pipeline.id: salida1
+  path.config: "/pipelines/salida1"
+  queue.type : persisted
+
+- pipeline.id: salida2
+  path.config: "/pipelines/salida2"
+  queue.type : persisted
+
 - pipeline.id: salida3
   path.config: "/pipelines/salida3"
-
+  queue.type : persisted
